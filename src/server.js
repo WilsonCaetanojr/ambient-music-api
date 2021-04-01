@@ -23,8 +23,8 @@ try {
     return res.status(err.statusCode).send(err.message);
   });
 
-  app.listen(3333);
-  console.log(`API listening on port ${3333}`);
+  app.listen(process.env.SERVER_PORT);
+  console.log(`API listening on port ${process.env.SERVER_PORT}`);
 } catch (error) {
   return console.log("An error ocurred on app starting", error);
 }
