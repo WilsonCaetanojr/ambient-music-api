@@ -3,19 +3,18 @@
   "version": "1.0.0",
   "main": "index.js",
   "repository": "https://github.com/WilsonCaetanojr/ambient-music-api.git",
-  "author": "WilsonCaetanojr <wilsonjr_caetano@hotmail.com>",
+  "author": "WilsonCaetanojr <wilsonjr_cartano@hotmail.com>",
   "license": "MIT",
   "scripts": {
-    "build": "tsc",
-    "start-dev": "nodemon src/server.ts"
-  },
-  "devDependencies": {
-    "@types/express": "^4.17.11",
-    "nodemon": "^2.0.7",
-    "ts-node-dev": "^1.1.6",
-    "typescript": "^4.2.3"
+    "start": "node src/server.js",
+    "start-dev": "nodemon src/server.js"
   },
   "dependencies": {
-    "express": "^4.17.1"
+    "dotenv": "^8.2.0",
+    "express": "^4.17.1",
+    "express-async-errors": "^3.1.1"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.7"
   }
 }
