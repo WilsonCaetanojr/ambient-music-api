@@ -17,7 +17,7 @@ const attributes = {
     allowNull: false,
   },
   Password: {
-    type: Sequelize.STRING(20),
+    type: Sequelize.STRING(80),
     allowNull: false,
   },
   FlagActive: {
