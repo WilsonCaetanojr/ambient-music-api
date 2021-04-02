@@ -9,7 +9,10 @@ try {
   app.use(express.json());
 
   indexRoutes.map(route =>
-    app.use(route.name.replace(/[\\]/g, "/"), route.route)
+    app.use(
+      route.name.replace(/[\\]/g, "/").replace(".routes", ""),
+      route.route
+    )
   );
 
   app.use((err, req, res, _next) => {
