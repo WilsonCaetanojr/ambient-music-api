@@ -2,7 +2,7 @@
 
 module.exports = {
   up: async (queryInterface, Sequelize) => {
-    await queryInterface.createTable("Users", {
+    await queryInterface.createTable("Musics", {
       Id: {
         type: Sequelize.INTEGER,
         primaryKey: true,
@@ -13,19 +13,9 @@ module.exports = {
         type: Sequelize.STRING(50),
         allowNull: false,
       },
-      Email: {
-        type: Sequelize.STRING(50),
+      Url: {
+        type: Sequelize.STRING(255),
         allowNull: false,
-        unique: true,
-      },
-      Password: {
-        type: Sequelize.STRING(80),
-        allowNull: false,
-      },
-      FlagActive: {
-        type: Sequelize.BOOLEAN,
-        allowNull: false,
-        defaultValue: true,
       },
       createdAt: {
         type: Sequelize.DATE(),
@@ -40,6 +30,6 @@ module.exports = {
   },
 
   down: async (queryInterface, Sequelize) => {
-    await queryInterface.dropTable("Users");
+    await queryInterface.dropTable("Musics");
   },
 };

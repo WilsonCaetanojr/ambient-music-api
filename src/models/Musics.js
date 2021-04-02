@@ -11,20 +11,11 @@ const attributes = {
   Name: {
     type: Sequelize.STRING(50),
     allowNull: false,
-  },
-  Email: {
-    type: Sequelize.STRING(50),
-    allowNull: false,
     unique: true,
   },
-  Password: {
-    type: Sequelize.STRING(80),
+  Url: {
+    type: Sequelize.STRING(255),
     allowNull: false,
-  },
-  FlagActive: {
-    type: Sequelize.BOOLEAN,
-    allowNull: false,
-    defaultValue: true,
   },
   createdAt: {
     type: Sequelize.DATE(),
@@ -37,7 +28,7 @@ const attributes = {
   },
 };
 
-const Users = sequelize.define("Users", attributes);
+const Musics = sequelize.define("Musics", attributes);
 
-exports.Users = Users;
+exports.Musics = Musics;
 exports.attributes = attributes;
