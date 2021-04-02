@@ -1,10 +1,29 @@
 require("express-async-errors");
 require("dotenv/config");
+var cors = require("cors");
 const express = require("express");
 const indexRoutes = require("./routes");
 
+const setupCors = app => {
+  const whiteList = process.env.WHITE_LIST_CORS;
+  console.log("Initializing cors with white list: ", whiteList);
+  var corsOptions = {
+    origin: (origin, callback) => {
+      if (!origin || whiteList.indexOf(origin) !== -1) {
+        callback(null, true);
+      } else {
+        callback(new Error("CORS not allowed"));
+      }
+    },
+  };
+
+  app.use(cors(corsOptions));
+};
+
 try {
   const app = express();
+
+  setupCors(app);
 
   app.use(express.json());
 
