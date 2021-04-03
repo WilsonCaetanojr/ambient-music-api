@@ -27,7 +27,7 @@ module.exports = {
     Id: Joi.any().strip(),
     Name: Joi.string().max(50).required(),
     Email: Joi.string().max(50).required().external(uniqueEmail),
-    Password: Joi.string().min(5).max(10).required(),
+    Password: Joi.string().min(5).max(15).required(),
     FlagActive: Joi.boolean().required(),
   },
 
@@ -35,7 +35,7 @@ module.exports = {
     Id: Joi.number().required().external(userExists),
     Name: Joi.string().max(50),
     Email: Joi.string().max(50).external(uniqueEmail),
-    Password: Joi.string().min(5).max(10),
+    Password: Joi.string().min(5).max(15),
     FlagActive: Joi.boolean(),
   },
 };

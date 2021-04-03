@@ -12,7 +12,7 @@ const authUser = async (req, res) => {
 
     const schema = Joi.object({
       Email: Joi.string().max(50).required(),
-      Password: Joi.string().max(10).required(),
+      Password: Joi.string().max(15).required(),
     });
 
     body = await schema.validateAsync(body, { abortEarly: false });
@@ -43,7 +43,15 @@ const authUser = async (req, res) => {
       process.env.JWT_PRIVATE_KEY
     );
 
-    AppSuccess({ res, data: { Id: user.Id, Token: token } });
+    AppSuccess({
+      res,
+      data: {
+        Id: user.Id,
+        Name: user.Name,
+        Email: user.Email,
+        Token: token,
+      },
+    });
   } catch (error) {
     console.log(error);
     throw new AppError(error);
