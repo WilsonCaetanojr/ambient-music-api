@@ -8,15 +8,22 @@ const attributes = {
     autoIncrement: true,
     allowNull: false,
   },
+  IdUser: {
+    type: Sequelize.INTEGER,
+    allowNull: false,
+    references: {
+      key: "Id",
+      model: "Users",
+    },
+  },
   Name: {
     type: Sequelize.STRING(50),
     allowNull: false,
     unique: true,
   },
-  Url: {
-    type: Sequelize.STRING(255),
+  Description: {
+    type: Sequelize.STRING(50),
     allowNull: false,
-    unique: true,
   },
   createdAt: {
     type: Sequelize.DATE(),
