@@ -1,18 +1,11 @@
 const Joi = require("joi");
 const { Users } = require("../models/Users");
+const { existsByPk } = require("./config/genericValidations");
 const JoyError = require("./config/JoyError");
 
-const userExists = async value => {
-  const user = await Users.findByPk(value);
-
-  if (!user) {
-    throw new JoyError("User does not exist");
-  }
-
-  return value;
-};
-
 const uniqueEmail = async value => {
+  if (!value) return value;
+
   const emailExists = await Users.findOne({ where: { Email: value } });
 
   if (emailExists) {
@@ -32,7 +25,9 @@ module.exports = {
   },
 
   update: {
-    Id: Joi.number().required().external(userExists),
+    Id: Joi.number()
+      .required()
+      .external(value => existsByPk({ value, model: Users, key: "IdUser" })),
     Name: Joi.string().max(50),
     Email: Joi.string().max(50).external(uniqueEmail),
     Password: Joi.string().min(5).max(15),
