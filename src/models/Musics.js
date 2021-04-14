@@ -18,6 +18,14 @@ const attributes = {
     allowNull: false,
     unique: true,
   },
+  createdBy: {
+    type: Sequelize.INTEGER,
+    allowNull: false,
+    references: {
+      key: "Id",
+      model: "Users",
+    },
+  },
   createdAt: {
     type: Sequelize.DATE(),
   },
