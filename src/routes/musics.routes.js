@@ -2,13 +2,13 @@ const express = require("express");
 const {
   createMusic,
   updateMusic,
-  getMusics,
+  getMusicsUser,
 } = require("../controllers/musics.controllers");
 const auth = require("../middlewares/auth");
 
 const routes = express.Router();
 
-routes.get("/:id?", auth, getMusics);
+routes.get("/:id?", auth, getMusicsUser);
 
 routes.post("/", auth, createMusic);
 

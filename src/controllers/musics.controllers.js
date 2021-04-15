@@ -4,9 +4,12 @@ const AppSuccess = require("../config/returns/AppSuccess");
 const AppError = require("../config/returns/AppError");
 const { Musics } = require("../models/Musics");
 
-const getMusics = async (req, res) => {
+const getMusicsUser = async (req, res) => {
   try {
-    const where = {};
+    if (!req.params.user || !req.user.Id)
+      throw new AppError("Você não possui permissão para editar músicas.");
+
+    const where = { createdBy: req.user.Id };
 
     if (req.params.id) {
       where.Id = req.params.id;
@@ -34,6 +37,8 @@ const createMusic = async (req, res) => {
   try {
     let { body } = req;
 
+    body.createdBy = req.user ? req.user.Id : null;
+
     const schema = Joi.object(musicsSchema.create);
 
     body = await schema.validateAsync(body, { abortEarly: false });
@@ -60,6 +65,14 @@ const updateMusic = async (req, res) => {
 
     body = await schema.validateAsync({ ...body, Id }, { abortEarly: false });
 
+    const music = await Musics.findByPk(Id);
+
+    if (!music || !req.user || music.createdBy !== req.user.Id) {
+      throw new AppError(
+        "Você não possui permissão para ralizar alterações nesta música."
+      );
+    }
+
     await Musics.update(body, { where: { Id } });
 
     return AppSuccess({
@@ -73,7 +86,7 @@ const updateMusic = async (req, res) => {
 };
 
 module.exports = {
-  getMusics,
+  getMusicsUser,
   createMusic,
   updateMusic,
 };
