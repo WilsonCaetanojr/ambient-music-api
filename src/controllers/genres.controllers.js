@@ -14,7 +14,7 @@ const getGenres = async (req, res) => {
       where,
     });
 
-    if (!genres || genres.lenght < 0) {
+    if (!genres || genres.length < 1) {
       throw new AppError("Nenhuma música encontrada.");
     }
 

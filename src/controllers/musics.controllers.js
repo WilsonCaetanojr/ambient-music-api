@@ -6,7 +6,7 @@ const { Musics } = require("../models/Musics");
 
 const getMusicsUser = async (req, res) => {
   try {
-    if (!req.params.user || !req.user.Id)
+    if (!req.user.Id)
       throw new AppError("Você não possui permissão para editar músicas.");
 
     const where = { createdBy: req.user.Id };
@@ -19,7 +19,7 @@ const getMusicsUser = async (req, res) => {
       where,
     });
 
-    if (!musics || musics.lenght < 0) {
+    if (!musics || musics.length < 1) {
       throw new AppError("Nenhuma música encontrada.");
     }
 
