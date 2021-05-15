@@ -3,6 +3,8 @@ const albumsSchema = require("../schemes/albums.schemes");
 const AppSuccess = require("../config/returns/AppSuccess");
 const AppError = require("../config/returns/AppError");
 const { Albums } = require("../models/Albums");
+const { MusicsAlbum } = require("../models/MusicsAlbum");
+const { Musics } = require("../models/Musics");
 
 const getAlbumsUser = async (req, res) => {
   try {
@@ -17,6 +19,28 @@ const getAlbumsUser = async (req, res) => {
 
     const albums = await Albums.findAll({
       where,
+    });
+
+    const albumsMuscis = await MusicsAlbum.findAll({
+      where: { IdAlbum: albums.map(alb => alb.Id) },
+    });
+
+    const muscis = await Musics.findAll({
+      where: { Id: albumsMuscis.map(alb => alb.IdMusic) },
+    });
+
+    albums.forEach((element, index) => {
+      element = element.dataValues;
+
+      const albumMusicCurrent = albumsMuscis
+        .filter(alb => alb.IdAlbum === element.Id)
+        .map(item => item.IdMusic);
+
+      const musicsCurrent = muscis.filter(
+        music => albumMusicCurrent.indexOf(music.Id) !== -1
+      );
+
+      element.Musics = musicsCurrent;
     });
 
     if (!albums || albums.length < 1) {
@@ -39,11 +63,25 @@ const createAlbum = async (req, res) => {
 
     body.createdBy = req.user ? req.user.Id : null;
 
-    const schema = Joi.object(albumsSchema.create);
+    const schemaMusicsAlbum = { Musics: Joi.array().required() };
+
+    const schema = Joi.object(
+      Object.assign(albumsSchema.create, schemaMusicsAlbum)
+    );
 
     body = await schema.validateAsync(body, { abortEarly: false });
 
-    await Albums.create(body);
+    const newAlbum = await Albums.create(body);
+
+    body.Musics.map(music => {
+      try {
+        if (music && music.Id) {
+          MusicsAlbum.create({ IdMusic: music.Id, IdAlbum: newAlbum.Id });
+        }
+      } catch (error) {
+        console.log("Error insert MusicsAlbum.");
+      }
+    });
 
     return AppSuccess({
       res,

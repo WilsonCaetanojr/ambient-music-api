@@ -16,7 +16,6 @@ const attributes = {
   Url: {
     type: Sequelize.STRING(255),
     allowNull: false,
-    unique: true,
   },
   createdBy: {
     type: Sequelize.INTEGER,

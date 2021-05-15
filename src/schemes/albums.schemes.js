@@ -26,6 +26,7 @@ module.exports = {
     IdGenre: Joi.number()
       .required()
       .external(value => existsByPk({ value, model: Genres, key: "IdGenre" })),
+    Intensity: Joi.number().required(),
     createdBy: Joi.number()
       .required()
       .external(value => existsByPk({ value, model: Users, key: "IdUser" })),
@@ -43,6 +44,7 @@ module.exports = {
     IdGenre: Joi.number().external(value =>
       existsByPk({ value, model: Genres, key: "IdGenre" })
     ),
+    Intensity: Joi.number(),
     createdBy: Joi.any().strip(),
   },
 };
