@@ -9,22 +9,34 @@ module.exports = {
         autoIncrement: true,
         allowNull: false,
       },
-      IdUser: {
-        type: Sequelize.INTEGER,
-        allowNull: true,
-        references: {
-          key: "Id",
-          model: "Users",
-        },
-      },
       Name: {
         type: Sequelize.STRING(50),
         allowNull: false,
         unique: true,
       },
+      Intensity: {
+        type: Sequelize.INTEGER,
+        allowNull: false,
+      },
+      IdGenre: {
+        type: Sequelize.INTEGER,
+        allowNull: false,
+        references: {
+          key: "Id",
+          model: "Genres",
+        },
+      },
       Description: {
         type: Sequelize.STRING(50),
         allowNull: false,
+      },
+      createdBy: {
+        type: Sequelize.INTEGER,
+        allowNull: false,
+        references: {
+          key: "Id",
+          model: "Users",
+        },
       },
       createdAt: {
         type: Sequelize.DATE(),
