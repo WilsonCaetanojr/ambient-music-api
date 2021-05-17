@@ -52,3 +52,5 @@ const Albums = sequelize.define("Albums", attributes);
 
 exports.Albums = Albums;
 exports.attributes = attributes;
+
+// Albums.sync({ force: true });

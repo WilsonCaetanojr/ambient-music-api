@@ -10,7 +10,7 @@ const routes = express.Router();
 
 routes.post("/auth", authUser);
 
-routes.post("/", auth, createUser);
+routes.post("/", createUser);
 
 routes.put("/:id", auth, updateUser);
 
