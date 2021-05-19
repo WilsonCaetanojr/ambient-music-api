@@ -11,19 +11,14 @@ const attributes = {
   Name: {
     type: Sequelize.STRING(50),
     allowNull: false,
-    unique: true,
+  },
+  Image: {
+    type: Sequelize.STRING(10000),
+    allowNull: true,
   },
   Intensity: {
     type: Sequelize.INTEGER,
     allowNull: false,
-  },
-  IdGenre: {
-    type: Sequelize.INTEGER,
-    allowNull: false,
-    references: {
-      key: "Id",
-      model: "Genres",
-    },
   },
   Description: {
     type: Sequelize.STRING(50),
@@ -52,5 +47,3 @@ const Albums = sequelize.define("Albums", attributes);
 
 exports.Albums = Albums;
 exports.attributes = attributes;
-
-// Albums.sync({ force: true });

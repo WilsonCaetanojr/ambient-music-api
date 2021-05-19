@@ -85,7 +85,7 @@ const createAlbum = async (req, res) => {
 
     return AppSuccess({
       res,
-      msg: "Álbum cadastrado com sucesso.",
+      msg: "Tema cadastrado com sucesso.",
       status: 201,
     });
   } catch (error) {
@@ -99,7 +99,12 @@ const updateAlbum = async (req, res) => {
     let { body } = req;
     const Id = req.params.id;
 
-    const schema = Joi.object(albumsSchema.update);
+    console.log(Id);
+    const schemaMusicsAlbum = { Musics: Joi.array() };
+
+    const schema = Joi.object(
+      Object.assign(albumsSchema.update, schemaMusicsAlbum)
+    );
 
     body = await schema.validateAsync({ ...body, Id }, { abortEarly: false });
 
@@ -107,15 +112,28 @@ const updateAlbum = async (req, res) => {
 
     if (!album || !req.user || album.createdBy !== req.user.Id) {
       throw new AppError(
-        "Você não possui permissão para ralizar alterações neste álbum."
+        "Você não possui permissão para ralizar alterações neste tema."
       );
     }
 
     await Albums.update(body, { where: { Id } });
 
+    if (body.Musics) {
+      await MusicsAlbum.destroy({
+        where: {},
+        truncate: true,
+      });
+
+      body.Musics.map(music => {
+        if (music && music.Id) {
+          MusicsAlbum.create({ IdMusic: music.Id, IdAlbum: Id });
+        }
+      });
+    }
+
     return AppSuccess({
       res,
-      msg: "Álbum editada com sucesso.",
+      msg: "Tema editado com sucesso.",
     });
   } catch (error) {
     console.log(error);

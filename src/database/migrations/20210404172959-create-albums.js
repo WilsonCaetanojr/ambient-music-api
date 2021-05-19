@@ -12,19 +12,14 @@ module.exports = {
       Name: {
         type: Sequelize.STRING(50),
         allowNull: false,
-        unique: true,
+      },
+      Image: {
+        type: Sequelize.STRING(10000),
+        allowNull: false,
       },
       Intensity: {
         type: Sequelize.INTEGER,
         allowNull: false,
-      },
-      IdGenre: {
-        type: Sequelize.INTEGER,
-        allowNull: false,
-        references: {
-          key: "Id",
-          model: "Genres",
-        },
       },
       Description: {
         type: Sequelize.STRING(50),
