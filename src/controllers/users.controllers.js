@@ -5,6 +5,7 @@ const usersSchema = require("../schemes/users.schemes");
 const AppSuccess = require("../config/returns/AppSuccess");
 const AppError = require("../config/returns/AppError");
 const { Users } = require("../models/Users");
+const { Albums } = require("../models/Albums");
 
 const authUser = async (req, res) => {
   try {
@@ -108,8 +109,28 @@ const updateUser = async (req, res) => {
   }
 };
 
+const getQtdAlbums = async (req, res) => {
+  try {
+    if (!req.user || !req.user.Id) AppError("Usuário não encontrado.");
+
+    const albumsUser = await Albums.findAll({
+      where: { createdBy: req.user.Id },
+    });
+
+    return AppSuccess({
+      res,
+      msg: "Usuário editado com sucesso.",
+      data: { QtdAlbums: albumsUser.length },
+    });
+  } catch (error) {
+    console.log(error);
+    throw new AppError(error);
+  }
+};
+
 module.exports = {
   authUser,
   createUser,
   updateUser,
+  getQtdAlbums,
 };
