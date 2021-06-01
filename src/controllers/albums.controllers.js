@@ -22,22 +22,22 @@ const getAlbumsUser = async (req, res) => {
     });
 
     const albumsMuscis = await MusicsAlbum.findAll({
-      where: { IdAlbum: albums.map(alb => alb.Id) },
+      where: { IdAlbum: albums.map((alb) => alb.Id) },
     });
 
     const muscis = await Musics.findAll({
-      where: { Id: albumsMuscis.map(alb => alb.IdMusic) },
+      where: { Id: albumsMuscis.map((alb) => alb.IdMusic) },
     });
 
     albums.forEach((element, index) => {
       element = element.dataValues;
 
       const albumMusicCurrent = albumsMuscis
-        .filter(alb => alb.IdAlbum === element.Id)
-        .map(item => item.IdMusic);
+        .filter((alb) => alb.IdAlbum === element.Id)
+        .map((item) => item.IdMusic);
 
       const musicsCurrent = muscis.filter(
-        music => albumMusicCurrent.indexOf(music.Id) !== -1
+        (music) => albumMusicCurrent.indexOf(music.Id) !== -1
       );
 
       element.Musics = musicsCurrent;
@@ -73,7 +73,7 @@ const createAlbum = async (req, res) => {
 
     const newAlbum = await Albums.create(body);
 
-    body.Musics.map(music => {
+    body.Musics.map((music) => {
       try {
         if (music && music.Id) {
           MusicsAlbum.create({ IdMusic: music.Id, IdAlbum: newAlbum.Id });
@@ -99,7 +99,6 @@ const updateAlbum = async (req, res) => {
     let { body } = req;
     const Id = req.params.id;
 
-    console.log(Id);
     const schemaMusicsAlbum = { Musics: Joi.array() };
 
     const schema = Joi.object(
@@ -124,7 +123,7 @@ const updateAlbum = async (req, res) => {
         truncate: true,
       });
 
-      body.Musics.map(music => {
+      body.Musics.map((music) => {
         if (music && music.Id) {
           MusicsAlbum.create({ IdMusic: music.Id, IdAlbum: Id });
         }
@@ -141,8 +140,34 @@ const updateAlbum = async (req, res) => {
   }
 };
 
+const deleteAlbum = async (req, res) => {
+  try {
+    const Id = req.params.id;
+
+    const album = await Albums.findByPk(Id);
+
+    if (!album || !req.user || album.createdBy !== req.user.Id) {
+      throw new AppError(
+        "Você não possui permissão para ralizar alterações neste tema."
+      );
+    }
+
+    await MusicsAlbum.destroy({ where: { IdAlbum: Id } });
+    await Albums.destroy({ where: { Id } });
+
+    return AppSuccess({
+      res,
+      msg: "Tema deletado com sucesso.",
+    });
+  } catch (error) {
+    console.log(error);
+    throw new AppError(error);
+  }
+};
+
 module.exports = {
   getAlbumsUser,
   createAlbum,
   updateAlbum,
+  deleteAlbum,
 };
