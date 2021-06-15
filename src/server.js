@@ -1,6 +1,7 @@
 require("express-async-errors");
 require("dotenv/config");
 var cors = require("cors");
+const bodyParser = require("body-parser");
 const express = require("express");
 const indexRoutes = require("./routes");
 
