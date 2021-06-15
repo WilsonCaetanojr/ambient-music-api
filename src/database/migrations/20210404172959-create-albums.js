@@ -14,8 +14,8 @@ module.exports = {
         allowNull: false,
       },
       Image: {
-        type: Sequelize.STRING(10000),
-        allowNull: false,
+        type: Sequelize.TEXT,
+        allowNull: true,
       },
       Intensity: {
         type: Sequelize.INTEGER,

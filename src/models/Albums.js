@@ -13,7 +13,7 @@ const attributes = {
     allowNull: false,
   },
   Image: {
-    type: Sequelize.STRING(10000),
+    type: Sequelize.TEXT,
     allowNull: true,
   },
   Intensity: {
