@@ -4,7 +4,7 @@ var cors = require("cors");
 const express = require("express");
 const indexRoutes = require("./routes");
 
-const setupCors = app => {
+const setupCors = (app) => {
   const whiteList = process.env.WHITE_LIST_CORS;
   console.log("Initializing cors with white list: ", whiteList);
   var corsOptions = {
@@ -26,8 +26,9 @@ try {
   setupCors(app);
 
   app.use(express.json());
+  app.use(bodyParser.json({ limit: "20mb", extended: true }));
 
-  indexRoutes.map(route =>
+  indexRoutes.map((route) =>
     app.use(
       route.name.replace(/[\\]/g, "/").replace(".routes", ""),
       route.route
