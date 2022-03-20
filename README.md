@@ -14,7 +14,8 @@ The technologies used in the project:
 
 * [Node](https://nodejs.org/)      
 * [Sequelize](https://sequelize.org/)      
-* [Express](https://expressjs.com/pt-br/)    
+* [Express](https://expressjs.com/pt-br/)  
+* [Joi](https://joi.dev/api)
 
 # :rocket: Features
 
