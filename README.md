@@ -40,6 +40,6 @@ $ git clone https://github.com/WilsonCaetanojr/ambient-music-api.git
 $ yarn install
 
 # Run Aplication
-$ yarn dev
+$ yarn start-dev
 ```
-Go to http://localhost:9999/ to see the result.
+Go to http://localhost:{{PORT}}/ to see the result.
