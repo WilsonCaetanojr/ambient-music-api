@@ -1,5 +1,5 @@
 <p align="center">
-   <img src="https://imgur.com/9nBkXmD.png" alt="Move It" width="auto"/>
+   <img src="https://imgur.com/wHEVOvK.png" alt="Move It" width="400"/>
 </p>
 
 # :pushpin: Table of Contents
